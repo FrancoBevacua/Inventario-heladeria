@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Heladería — Inventario</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"/>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'display': ['Outfit', 'sans-serif'],
+            'body': ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            'flag-red': '#DC2626',
+            'flag-red-dark': '#B91C1C',
+            'flag-blue': '#2563EB',
+            'flag-blue-dark': '#1D4ED8',
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.3s ease-out',
+            'slide-up': 'slideUp 0.4s ease-out',
+            'scale-in': 'scaleIn 0.2s ease-out',
+          },
+          keyframes: {
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            slideUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            scaleIn: { '0%': { opacity: '0', transform: 'scale(0.95)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gradient-to-br from-red-50 via-white to-blue-50 min-h-screen font-body text-gray-800">
+
+  <!-- ═══════════════════════════════════════
+       HEADER
+  ═══════════════════════════════════════ -->
+  <header class="gradient-bg text-white shadow-2xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 lg:w-16 lg:h-16 bg-white/20 backdrop-blur rounded-2xl flex items-center justify-center text-3xl lg:text-4xl shadow-lg">
+            🍦
+          </div>
+          <div>
+            <p class="text-white/70 text-sm font-medium tracking-wide uppercase">Stock Manager</p>
+            <h1 class="font-display text-3xl lg:text-4xl font-bold">Heladería</h1>
+            <p class="text-white/70 text-sm">Panel de Inventario</p>
+          </div>
+        </div>
+        <button id="btn-fabrica" class="group flex items-center gap-3 bg-white/20 hover:bg-white/30 backdrop-blur px-5 py-3 rounded-xl transition-all duration-300 font-medium shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+          <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          Lista Fábrica
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 -mt-4">
+
+    <!-- ═══════════════════════════════════════
+         SECCIÓN 1: ESTADÍSTICAS
+    ═══════════════════════════════════════ -->
+    <section class="mb-10">
+      <h2 class="section-header text-xl font-display font-bold text-gray-800">
+        Resumen del Inventario
+      </h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
+        <div class="glass rounded-2xl p-5 shadow-xl hover:shadow-2xl transition-all card-hover border-l-4 border-gray-400">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-gray-600 text-sm font-medium">Total de gustos</span>
+            <span class="w-3 h-3 rounded-full bg-gray-500"></span>
+          </div>
+          <span id="stat-total" class="font-display text-4xl font-bold text-gray-700">—</span>
+        </div>
+
+        <div class="glass rounded-2xl p-5 shadow-xl hover:shadow-2xl transition-all card-hover border-l-4 border-blue-600">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-blue-700 text-sm font-medium">Disponibles</span>
+            <span class="w-3 h-3 rounded-full bg-blue-600"></span>
+          </div>
+          <span id="stat-disponibles" class="font-display text-4xl font-bold text-blue-600">—</span>
+        </div>
+
+        <div class="glass rounded-2xl p-5 shadow-xl hover:shadow-2xl transition-all card-hover border-l-4 border-red-600 bg-red-50">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-red-800 text-sm font-medium">Faltantes</span>
+            <span class="w-3 h-3 rounded-full bg-red-600 animate-pulse"></span>
+          </div>
+          <span id="stat-faltantes" class="font-display text-4xl font-bold text-red-700">—</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Separador visual -->
+    <div class="section-divider mb-10"></div>
+
+    <!-- ═══════════════════════════════════════
+         SECCIÓN 2: INVENTARIO (Filtros + Grid)
+    ═══════════════════════════════════════ -->
+    <section class="mb-10">
+      <h2 class="section-header text-xl font-display font-bold text-gray-800">
+        Inventario de Gustos
+      </h2>
+
+      <!-- Filtros -->
+      <div class="mb-6">
+        <p class="text-gray-400 text-sm font-medium mb-3 uppercase tracking-wide">Filtrar por tipo</p>
+        <div class="flex flex-wrap gap-3">
+          <button class="filtro-btn active px-5 py-2.5 rounded-full font-medium transition-all duration-300 bg-red-700 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 hover:bg-red-800" data-tipo="todos">
+            Todos
+          </button>
+          <button class="filtro-btn px-5 py-2.5 rounded-full font-medium transition-all duration-300 bg-white text-gray-600 hover:bg-blue-50 hover:text-blue-600 shadow-md hover:shadow-lg hover:-translate-y-0.5 border border-gray-200" data-tipo="Cremas">
+            Cremas
+          </button>
+          <button class="filtro-btn px-5 py-2.5 rounded-full font-medium transition-all duration-300 bg-white text-gray-600 hover:bg-blue-50 hover:text-blue-600 shadow-md hover:shadow-lg hover:-translate-y-0.5 border border-gray-200" data-tipo="Dulces">
+            Dulces
+          </button>
+          <button class="filtro-btn px-5 py-2.5 rounded-full font-medium transition-all duration-300 bg-white text-gray-600 hover:bg-blue-50 hover:text-blue-600 shadow-md hover:shadow-lg hover:-translate-y-0.5 border border-gray-200" data-tipo="Chocolates">
+            Chocolates
+          </button>
+          <button class="filtro-btn px-5 py-2.5 rounded-full font-medium transition-all duration-300 bg-white text-gray-600 hover:bg-blue-50 hover:text-blue-600 shadow-md hover:shadow-lg hover:-translate-y-0.5 border border-gray-200" data-tipo="Agua">
+            Agua
+          </button>
+          <button class="filtro-btn px-5 py-2.5 rounded-full font-medium transition-all duration-300 bg-white text-gray-600 hover:bg-blue-50 hover:text-blue-600 shadow-md hover:shadow-lg hover:-translate-y-0.5 border border-gray-200" data-tipo="Especialidad">
+            Especialidad
+          </button>
+        </div>
+      </div>
+
+      <!-- Grid de helados -->
+      <div id="helados-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      </div>
+    </section>
+
+    <!-- Separador visual -->
+    <div class="section-divider mb-10"></div>
+
+    <!-- ═══════════════════════════════════════
+         SECCIÓN 3: AGREGAR GUSTO
+    ═══════════════════════════════════════ -->
+    <section>
+      <h2 class="section-header text-xl font-display font-bold text-gray-800">
+        Agregar Nuevo Gusto
+      </h2>
+      
+      <div class="glass rounded-3xl p-6 lg:p-8 shadow-2xl">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-600">Nombre</label>
+            <input id="input-nombre" type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-red-600 focus:ring-2 focus:ring-red-200 outline-none transition-all bg-white/80" placeholder="Ej: Americana"/>
+          </div>
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-600">Color</label>
+            <input id="input-color" type="text" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-red-600 focus:ring-2 focus:ring-red-200 outline-none transition-all bg-white/80" placeholder="Ej: Blanco"/>
+          </div>
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-600">Tipo</label>
+            <select id="input-tipo" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-red-600 focus:ring-2 focus:ring-red-200 outline-none transition-all bg-white/80 cursor-pointer">
+              <option value="Cremas">Cremas</option>
+              <option value="Dulces">Dulces</option>
+              <option value="Chocolates">Chocolates</option>
+              <option value="Agua">Agua</option>
+              <option value="Especialidad">Especialidad</option>
+            </select>
+          </div>
+          <div class="flex items-end">
+            <button id="btn-agregar" class="w-full bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+              </svg>
+              Agregar
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════
+       MODAL FÁBRICA
+  ═══════════════════════════════════════ -->
+  <div id="modal-fabrica" class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 animate-fade-in">
+    <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md animate-scale-in overflow-hidden">
+      <div class="gradient-bg p-6 text-white">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-white/70 text-sm font-medium uppercase">Pedido pendiente</p>
+            <h2 class="font-display text-2xl font-bold">Lista para Fábrica</h2>
+          </div>
+          <button id="btn-cerrar-modal" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-2xl transition-colors">
+            ×
+          </button>
+        </div>
+      </div>
+      <div class="p-6">
+        <ul id="lista-fabrica" class="space-y-3 mb-6 max-h-64 overflow-y-auto">
+        </ul>
+        <button onclick="window.print()" class="w-full flex items-center justify-center gap-3 px-6 py-3 border-2 border-red-700 text-red-700 rounded-xl font-semibold hover:bg-red-50 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+          </svg>
+          Imprimir listado
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
