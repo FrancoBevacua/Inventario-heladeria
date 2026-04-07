@@ -12,6 +12,7 @@ async function cargarHelados() {
     const response = await fetch(API_URL);
     const helados = await response.json();
     console.log(helados);
+    console.log(response);
     renderizarHelados(helados);
     actualizarStats(helados);
   } catch (error) {
