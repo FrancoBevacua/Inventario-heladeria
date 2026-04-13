@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //async function cargarHelados() {
   //try {
 fetch(API_URL)
-  .then(console.log(response))
+  .then(response => console.log(response))
   .catch(error => console.error(error));
     //const helados = await response.json();
     //console.log(response.json);
