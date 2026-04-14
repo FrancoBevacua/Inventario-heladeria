@@ -13,10 +13,12 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+origins: str = "https://francobevacua.github.io/inventario-heladeria/"
+
 # CORS - permitir solicitudes desde cualquier origen
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
