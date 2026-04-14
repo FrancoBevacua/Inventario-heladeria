@@ -1,4 +1,4 @@
-const API_URL = 'https://inventario-heladeria-backend.onrender.com/helados';
+const API_URL = 'https://inventario-heladeria-backend.onrender.com/';
 
 document.addEventListener('DOMContentLoaded', () => {
   //cargarHelados();

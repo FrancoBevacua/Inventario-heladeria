@@ -16,7 +16,7 @@ def get_helados(session: SessionDep):
     statement = select(Helado)
     results = session.exec(statement)
     lista_helados = [helado for helado in results]
-    return lista_helados
+    return {"lista": lista_helados}
 
 # Consultar sólo los helados por disponibilidad
 @router.get("/disponibles")
