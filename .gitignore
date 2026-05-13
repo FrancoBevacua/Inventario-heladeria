@@ -16,6 +16,8 @@ build/
 # IDE
 .idea/
 .vscode/
+.agents/
+.claude/
 *.swp
 *.swo
 
