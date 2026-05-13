@@ -7,20 +7,18 @@ document.addEventListener('DOMContentLoaded', () => {
   configurarModalFabrica();
 });
 
-//async function cargarHelados() {
-  //try {
-fetch(API_URL)
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error(error));
-    //const helados = await response.json();
-    //console.log(response.json);
-    //renderizarHelados(helados);
-    //actualizarStats(helados);
-  //} catch (error) {
-  //  console.error('Error al cargar helados:', error);
-  //}
-//}
+async function cargarHelados() {
+  try {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    const helados = data.lista;
+    console.log(helados);
+    renderizarHelados(helados);
+    actualizarStats(helados);
+  } catch (error) {
+    console.error('Error al cargar helados:', error);
+  }
+}
 
 function renderizarHelados(helados, filtro = 'todos') {
   const grid = document.getElementById('helados-grid');
