@@ -18,7 +18,6 @@ def get_helados(session: SessionDep):
     statement = select(Helado)
     results = session.exec(statement)
     lista_helados = [helado for helado in results]
-    print(f"Helados en lista: {helados}")
     return {"lista": lista_helados}
 
 # Consultar sólo los helados por disponibilidad
