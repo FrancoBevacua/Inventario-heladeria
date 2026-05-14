@@ -5,8 +5,6 @@ from models import Tipos, Helado
 from database import SessionDep, get_session
 from sqlmodel import Session, select
 
-from data import helados
-
 router = APIRouter(
     prefix="/helados",
     tags=["helados"]
