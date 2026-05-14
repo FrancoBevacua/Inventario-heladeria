@@ -1,6 +1,7 @@
 from typing import Annotated
 from fastapi import Depends
 from sqlmodel import SQLModel, create_engine, Session, Field, select
+from data import helados
 
 sql_filename: str = "database.db"
 sqlite_url: str = f"sqlite:///{sql_filename}"
@@ -13,6 +14,7 @@ def create_db_and_tables():
 
 def get_session():
     with Session(engine) as session:
+        print(f"Helados en lista: {helados}")
         yield session
 
 SessionDep = Annotated[Session, Depends(get_session)]
