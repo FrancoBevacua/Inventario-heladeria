@@ -14,7 +14,6 @@ def create_db_and_tables():
 
 def get_session():
     with Session(engine) as session:
-        print(f"Helados en lista: {helados}")
         yield session
 
 SessionDep = Annotated[Session, Depends(get_session)]
