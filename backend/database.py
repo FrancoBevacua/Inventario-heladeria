@@ -1,12 +1,19 @@
+import os
 from typing import Annotated
 from fastapi import Depends
 from sqlmodel import SQLModel, create_engine, Session, Field, select
 
-sql_filename: str = "database.db"
-sqlite_url: str = f"sqlite:///{sql_filename}"
+database_url: str = os.getenv("DATABASE_URL")
 
-connect_args = {"check_same_thread": False}
-engine = create_engine(sqlite_url, connect_args=connect_args)
+# Fail-Fast: if the variable is missing, stop the application.
+if not database_url:
+    raise ValueError("CRITICAL: DATABASE_URL enviroment variable is not set!")
+
+# SQLAlchemy requires 'postgresql://'
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+engine = create_engine(database_url)
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
