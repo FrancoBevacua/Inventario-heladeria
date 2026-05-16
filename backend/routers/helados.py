@@ -12,9 +12,11 @@ router = APIRouter(
 
 # Consultar toda la lista de helados
 @router.get("/")
-def get_helados(session: SessionDep) -> list[Helado]:
-    lista_helados = session.exec(select(Helado).all())
-    return lista_helados
+def get_helados(session: SessionDep):
+    statement = select(Helado)
+    results = session.exec(statement)
+    lista_helados = [helado for helado in results]
+    return {"lista": lista_helados}
 
 # Consultar sólo los helados por disponibilidad
 @router.get("/disponibles")
