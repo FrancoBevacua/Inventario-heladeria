@@ -104,7 +104,7 @@ export default function App() {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen font-sans text-slate-800 antialiased">
+    <div className="bg-gradient-to-r from-blue-700 to-blue-900 min-h-screen font-sans text-slate-800 antialiased">
       {notification && <Notification message={notification.message} type={notification.type} />}
       
       <Navbar 

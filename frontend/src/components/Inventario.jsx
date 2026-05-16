@@ -22,7 +22,7 @@ export default function Inventario({ helados, onToggle, onDelete }) {
     <div className="space-y-6 animate-fade-in">
       {/* Filtros por Familias */}
       <div className="space-y-2">
-        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Familias de Sabores</label>
+        <label className="text-xs font-bold text-slate-100 uppercase tracking-wider">Familias de Sabores</label>
         <div className="flex flex-wrap gap-2">
           {categorias.map(cat => (
             <button
@@ -43,7 +43,7 @@ export default function Inventario({ helados, onToggle, onDelete }) {
       {/* Contenedor en Filas Estiradas */}
       {heladosFiltrados.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300 text-slate-400 font-medium">
-          No hay registros de tipo "{categoriaSeleccionada}" en el stock.
+          No hay registros de tipo "{categoriaSeleccionada}" en el mostrador.
         </div>
       ) : (
         <div className="flex flex-col gap-3">
@@ -52,10 +52,10 @@ export default function Inventario({ helados, onToggle, onDelete }) {
             return (
               <div 
                 key={helado.id} 
-                className="bg-white rounded-xl shadow-sm border border-slate-200/80 overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between p-4 gap-4 transition-all duration-150 hover:shadow-md hover:border-slate-300 relative group"
+                className="bg-white/95 backdrop-blur-md border-2 border-white rounded-xl shadow-xl shadow-blue-950/50 overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between p-4 gap-4 transition-all duration-150 hover:shadow-md hover:border-slate-300 relative group"
               >
                 {/* Indicador de Color Lateral (Borde Estirado Izquierdo) */}
-                <div className="absolute left-0 top-0 bottom-0 w-1.5" style={{ backgroundColor: colorHex }} />
+                <div className="absolute left-0 top-0 bottom-0 w-1.5 border border-r-slate-800" style={{ backgroundColor: colorHex }} />
 
                 {/* Sección Izquierda: Identificador de Color + Texto Principal */}
                 <div className="flex items-center gap-4 pl-2 flex-1 min-w-0">
@@ -82,7 +82,7 @@ export default function Inventario({ helados, onToggle, onDelete }) {
                       : 'bg-red-50 text-red-700 border border-red-100'
                   }`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${helado.esta_disponible ? 'bg-blue-600' : 'bg-red-600'}`}></span>
-                    {helado.esta_disponible ? 'En Stock' : 'Agotado'}
+                    {helado.esta_disponible ? 'En Mostrador' : 'Agotado'}
                   </span>
                 </div>
 
