@@ -1,1 +1,0 @@
-const API_URL = 'https://tu-backend.onrender.com/helados';
