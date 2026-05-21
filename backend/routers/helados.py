@@ -1,3 +1,5 @@
+import datetime
+
 from fastapi import APIRouter
 from fastapi.params import Depends
 
@@ -49,12 +51,14 @@ def crear_helado(helado: Helado, session: SessionDep) -> Helado:
 
 # PUT - Actualizar helado
 @router.put("/")
-def actualizar_helado(helado_id: int, nombre: str, color: str, tipo: Tipos, esta_disponible: bool, session: Session = Depends(get_session)):
+def actualizar_helado(helado_id: int, nombre: str, color: str, tipo: Tipos, esta_disponible: bool, fecha_elaboracion: datetime.date, cantidad_baldes: int, session: Session = Depends(get_session)):
     helado_encontrado = session.get(Helado, helado_id)
     helado_encontrado.nombre = nombre
     helado_encontrado.color = color
     helado_encontrado.tipo = tipo
     helado_encontrado.esta_disponible = esta_disponible
+    helado_encontrado.fecha_elaboracion = fecha_elaboracion
+    helado_encontrado.cantidad_baldes = cantidad_baldes
 
     session.add(helado_encontrado)
     session.commit()
