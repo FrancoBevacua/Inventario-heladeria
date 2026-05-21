@@ -71,6 +71,7 @@ export default function Inventario({ helados, onToggle, onDelete }) {
                     <p className="text-xs text-slate-400 font-semibold uppercase mt-0.5 tracking-wider">
                       {helado.tipo} — <span className="lowercase italic font-normal text-slate-400">{helado.color}</span>
                     </p>
+                    <hr/>
                     <p>Fecha de elaboración: {helado.fecha_elaboracion}</p>
                     <p>Cantidad de baldes: {helado.cantidad_baldes}</p>
                   </div>

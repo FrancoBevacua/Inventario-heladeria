@@ -20,6 +20,6 @@ class Helado(SQLModel, table=True):
     nombre: str
     color: str
     tipo: Tipos
-    esta_disponible: bool
     fecha_elaboracion: str
     cantidad_baldes: datetime.date
+    esta_disponible: bool

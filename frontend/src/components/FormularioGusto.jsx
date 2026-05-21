@@ -14,8 +14,8 @@ export default function FormularioGusto({ onAgregar }) {
     onAgregar({
       nombre: nombre.trim(),
       color: color.trim(),
-      tipo: tipo
-      fecha_elaboracion: fecha_elaboracion
+      tipo: tipo,
+      fecha_elaboracion: fecha_elaboracion,
       cantidad_baldes: cantidad_baldes
     });
 
