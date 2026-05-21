@@ -4,6 +4,8 @@ export default function FormularioGusto({ onAgregar }) {
   const [nombre, setNombre] = useState('');
   const [color, setColor] = useState('');
   const [tipo, setTipo] = useState('Cremas');
+  const [fecha_elaboracion, setFecha] = useState('00-00-0000');
+  const [cantidad_baldes, setCantidad] = useState(1);
 
   const ejecutarEnvio = (e) => {
     e.preventDefault();
@@ -13,11 +15,15 @@ export default function FormularioGusto({ onAgregar }) {
       nombre: nombre.trim(),
       color: color.trim(),
       tipo: tipo
+      fecha_elaboracion: fecha_elaboracion
+      cantidad_baldes: cantidad_baldes
     });
 
     setNombre('');
     setColor('');
     setTipo('Cremas');
+    setFecha('00-00-0000');
+    setCantidad(1);
   };
 
   return (
@@ -36,7 +42,7 @@ export default function FormularioGusto({ onAgregar }) {
             value={nombre}
             onChange={e => setNombre(e.target.value)}
             className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-sm font-medium text-slate-900"
-            placeholder="Ej: Mousse de Chocolate al Rhum"
+            placeholder="Ej: Mousse de Chocolate"
           />
         </div>
 
@@ -66,6 +72,27 @@ export default function FormularioGusto({ onAgregar }) {
               <option value="Agua">Agua</option>
               <option value="Especialidad">Especialidad</option>
             </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Fecha de elaboración</label>
+            <input
+              type="date"
+              required
+              value={fecha_elaboracion}
+              onChange={e => setFecha(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-sm font-semibold text-slate-700 bg-white cursor-pointer"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Cantidad de baldes</label>
+            <input
+              type="number"
+              required
+              value={cantidad_baldes}
+              onChange={e => setCantidad(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-100 focus:border-blue-500 outline-none transition-all text-sm font-semibold text-slate-700 bg-white cursor-pointer"
+            />
           </div>
         </div>
 

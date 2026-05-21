@@ -1,3 +1,5 @@
+import datetime
+
 from fastapi import Depends, FastAPI, HTTPException, Query
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from enum import StrEnum, auto
@@ -19,3 +21,5 @@ class Helado(SQLModel, table=True):
     color: str
     tipo: Tipos
     esta_disponible: bool
+    fecha_elaboracion: str
+    cantidad_baldes: datetime.date

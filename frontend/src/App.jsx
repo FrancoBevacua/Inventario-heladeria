@@ -47,7 +47,7 @@ export default function App() {
     if (!helado) return;
 
     try {
-      const url = `${API_URL}?helado_id=${id}&nombre=${encodeURIComponent(helado.nombre)}&color=${encodeURIComponent(helado.color)}&tipo=${helado.tipo}&esta_disponible=${disponible}`;
+      const url = `${API_URL}?helado_id=${id}&nombre=${encodeURIComponent(helado.nombre)}&color=${encodeURIComponent(helado.color)}&tipo=${helado.tipo}&esta_disponible=${disponible}&fecha_elaboracion=${encodeURIComponent(helado.fecha_elaboracion)}&cantidad_baldes=${helado.cantidad_baldes}`;
       const response = await fetch(url, { method: 'PUT' });
 
       if (response.ok) {
@@ -117,7 +117,7 @@ export default function App() {
         {loading ? (
           <div className="flex flex-col justify-center items-center py-32 gap-4">
             <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-red-600"></div>
-            <p className="text-slate-400 text-sm font-medium animate-pulse">Sincronizando existencias...</p>
+            <p className="text-slate-400 text-sm font-medium animate-pulse">Conectando con el servidor...</p>
           </div>
         ) : (
           <div className="transition-all duration-300 ease-in-out">
