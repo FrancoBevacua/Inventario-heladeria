@@ -1,7 +1,10 @@
 import os
+from dotenv import load_dotenv
 from typing import Annotated
 from fastapi import Depends
 from sqlmodel import SQLModel, create_engine, Session, Field, select
+
+load_dotenv()
 
 database_url: str = os.getenv("DATABASE_URL")
 
