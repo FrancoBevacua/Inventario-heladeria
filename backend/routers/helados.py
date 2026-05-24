@@ -1,11 +1,12 @@
 import datetime
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from fastapi.params import Depends
 
-from models import Tipos, Helado
+from models import Tipos, Ubicacion, Helado, HeladoReadWithLotes, RequestTraspaso, Lote
 from database import SessionDep, get_session
 from sqlmodel import Session, select
+from typing import List
 
 router = APIRouter(
     prefix="/helados",
@@ -13,12 +14,10 @@ router = APIRouter(
 )
 
 # Consultar toda la lista de helados
-@router.get("/")
+@router.get("/", response_model=List[HeladoReadWithLotes])
 def get_helados(session: SessionDep):
-    statement = select(Helado)
-    results = session.exec(statement)
-    lista_helados = [helado for helado in results]
-    return {"lista": lista_helados}
+    helados = session.exec(select(Helado)).all()
+    return helados
 
 # Consultar sólo los helados por disponibilidad
 @router.get("/disponibles")
@@ -48,6 +47,37 @@ def crear_helado(helado: Helado, session: SessionDep) -> Helado:
     session.commit()
     session.refresh(helado)
     return helado
+
+# POST - Traspasos de lotes
+@router.post("/lotes/traspasar")
+def traspasar_baldes(pedido: RequestTraspaso, session: Session = Depends(get_session)):
+    lote_origen = session.get(Lote, pedido.lote_id)
+    if not lote_origen or lote_origen.cantidad_baldes < pedido.cantidad_a_mover:
+        raise HTTPException(status_code=400, detail="Cantidad inválida o lote no encontrado.")
+    
+    nueva_ubicacion = Ubicacion.DESPACHO if lote_origen.ubicacion == Ubicacion.POZO else Ubicacion.POZO
+
+    # Se mueve el lote completo
+    if lote_origen.cantidad_baldes == pedido.cantidad_a_mover:
+        lote_origen.ubicacion = nueva_ubicacion
+
+    # Se divide el lote
+    else:
+        lote_origen.cantidad_baldes -= pedido.cantidad_a_mover
+
+        # Se crea el nuevo lote en la ubicación elegida
+        nuevo_lote = Lote(
+            fecha_elaboracion=lote_origen.fecha_elaboracion,
+            cantidad_baldes=lote_origen.cantidad_baldes,
+            ubicacion=lote_origen.ubicacion,
+            helado_id=lote_origen.helado_id
+        )
+        session.add(nuevo_lote)
+
+    session.add(lote_origen)
+    session.commit()
+    return {"status" : "Traspaso exitoso"}
+
 
 # PUT - Actualizar helado
 @router.put("/")
