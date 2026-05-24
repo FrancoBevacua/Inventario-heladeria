@@ -93,7 +93,6 @@ export default function InventorySaaSDashboard() {
     // En lugar de escribir a mano las opciones, extraemos de la base de datos actual:
     // Creamos un Set (para evitar duplicados) con todos los tipos ("Cremas", "Agua", etc.) existentes en la DB.
     const dbTipos = useMemo(() => [...new Set(items.map(i => i.tipo))], [items]);
-    console.log(`Tipos: ${dbTipo}`);
     // Extraemos todos los colores únicos ("Blanco", "Marron", etc.) existentes en la DB.
     const dbColores = useMemo(() => [...new Set(items.map(i => i.color))], [items]);
     // Extraemos todos los nombres únicos para usarlos si fuera necesario.
