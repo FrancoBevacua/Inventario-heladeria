@@ -14,7 +14,11 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-origins: str = "https://inventario-heladeria-git-develop-francos-projects-c738d0c4.vercel.app/"
+origins = [
+    "https://inventario-heladeria-git-develop-francos-projects-c738d0c4.vercel.app/",
+    "http://localhost:3000",
+    "http://localhost:5173",
+]
 
 # CORS - permitir solicitudes desde cualquier origen
 app.add_middleware(

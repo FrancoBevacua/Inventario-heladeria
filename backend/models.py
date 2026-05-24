@@ -24,7 +24,7 @@ class Helado(SQLModel, table=True):
     nombre: str
     color: str
     tipo: Tipos
-    #esta_disponible: bool
+    esta_disponible: bool = Field(default=True)
     # Relación: Un helado tiene muchos lotes activos
     # cascade_delete hace que si borrás el gusto, se borren sus lotes automáticamente
     lotes: List["Lote"] = Relationship(back_populates="helado", cascade_delete=True)
