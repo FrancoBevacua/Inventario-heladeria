@@ -74,7 +74,7 @@ export default function InventorySaaSDashboard() {
             // Convertimos la respuesta a JSON
             const data = await response.json();
             // Guardamos la información en nuestro estado principal
-            setItems(data || []);
+            setItems(data.lotes || []);
         } catch (error) {
             // Si hay error de red, lo avisamos
             showToast('Error al sincronizar con el servidor', 'error');
