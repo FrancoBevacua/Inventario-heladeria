@@ -15,8 +15,8 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 origins: List[str] = [
+    "https://inventario-heladeria-backend.onrender.com/"
     "https://inventario-heladeria-git-develop-francos-projects-c738d0c4.vercel.app/",
-    "https://inventario-heladeria-backend.onrender.com/helados/"
 ]
 
 # CORS - permitir solicitudes desde cualquier origen
