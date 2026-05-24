@@ -20,7 +20,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://inventario-heladeria-git-develop-francos-projects-c738d0c4.vercel.app/",
-        "https://inventario-heladeria-backend.onrender.com/helados"],
+        "https://inventario-heladeria-backend.onrender.com/helados/"
+        ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
