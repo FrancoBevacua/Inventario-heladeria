@@ -14,19 +14,15 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-origins: List[str] = [
-    "https://inventario-heladeria-backend.onrender.com/helados"
-    "https://inventario-heladeria-git-develop-francos-projects-c738d0c4.vercel.app",
-]
+origins: str = "https://inventario-heladeria-git-develop-francos-projects-c738d0c4.vercel.app/"
 
 # CORS - permitir solicitudes desde cualquier origen
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_headers=["Authorization", "Content-Type", "Accept"],
-    max_age=3600
+    allow_methods=["*"],
+    allow_headers=["*"]
 )
 
 app.include_router(helados.router)
